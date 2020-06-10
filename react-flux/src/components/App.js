@@ -16,6 +16,7 @@ function App(props) {
         <Route path="/courses" component={CoursePage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/course/:slug" component={ManageCoursePage} />
+        <Route path="/course" component={ManageCoursePage} />
         <Redirect from="/about-page" to="about" />
         <Route component={NotFoundPage} />
       </Switch>
