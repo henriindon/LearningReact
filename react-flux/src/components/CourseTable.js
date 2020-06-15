@@ -6,6 +6,14 @@ function CourseRow(props) {
   return (
     <tr>
       <td>
+        <button
+          className="btn btn-outline-danger"
+          onClick={() => props.deleteCourse(props.course.id)}
+        >
+          Delete
+        </button>
+      </td>
+      <td>
         <Link to={"/course/" + props.course.slug}>{props.course.title}</Link>
       </td>
       <td>{props.course.authorId}</td>
@@ -20,6 +28,7 @@ function CourseTable(props) {
       <table className="table">
         <thead>
           <tr>
+            <th>&nbsp;</th>
             <th>Title</th>
             <th>Author ID</th>
             <th>Category</th>
@@ -27,7 +36,13 @@ function CourseTable(props) {
         </thead>
         <tbody>
           {props.courses.map((course) => {
-            return <CourseRow key={course.id} course={course} />;
+            return (
+              <CourseRow
+                key={course.id}
+                course={course}
+                deleteCourse={props.deleteCourse}
+              />
+            );
           })}
         </tbody>
       </table>
@@ -44,6 +59,7 @@ CourseTable.propTypes = {
       category: PropTypes.string.isRequired,
     })
   ).isRequired,
+  deleteCourse: PropTypes.func.isRequired,
 };
 
 export default CourseTable;
