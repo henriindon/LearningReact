@@ -16,7 +16,7 @@ function CourseRow(props) {
       <td>
         <Link to={"/course/" + props.course.slug}>{props.course.title}</Link>
       </td>
-      <td>{props.course.authorId}</td>
+      <td>{props.course.authorName}</td>
       <td>{props.course.category}</td>
     </tr>
   );
@@ -56,6 +56,7 @@ CourseTable.propTypes = {
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       authorId: PropTypes.number.isRequired,
+      authorName: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
     })
   ).isRequired,

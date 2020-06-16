@@ -16,17 +16,19 @@ const ManageCoursePage = (props) => {
   });
 
   useEffect(() => {
-    courseStore.addChangeListener(onChange);
+    courseStore.addChangeListener(onCourseChange);
     const slug = props.match.params.slug;
     if (courses.length === 0) {
       courseActions.loadCourses();
     } else if (slug) {
-      setCourse(courseStore.getCourseBySlug(slug));
+      var course = courseStore.getCourseBySlug(slug);
+      if (course) setCourse(course);
+      else props.history.push("/notfound");
     }
-    return () => courseStore.removeChangeListener(onChange);
-  }, [courses.length, props.match.params.slug]);
+    return () => courseStore.removeChangeListener(onCourseChange);
+  }, [props.history, courses.length, props.match.params.slug]);
 
-  const onChange = () => {
+  const onCourseChange = () => {
     setCourses(courseStore.getCourses());
   };
 
