@@ -9,35 +9,36 @@ import { loadAuthors } from "../actions/authorActions";
 
 function CoursePage() {
   const [courses, setCourses] = useState(coursetStore.getCourses());
+  const [authors, setAuthors] = useState(authorStore.getAuthors());
 
   useEffect(() => {
     coursetStore.addChangeListener(onCoursesChange);
+    authorStore.addChangeListener(onAuthorsChange);
     if (coursetStore.getCourses().length === 0) {
       loadAuthors();
       loadCourses();
     }
     return () => {
       coursetStore.removeChangeListener(onCoursesChange);
+      authorStore.removeChangeListener(onAuthorsChange);
     };
   }, []);
 
-  function onCoursesChange() {
-    const authors = authorStore.getAuthors();
-    const storeCourses = coursetStore.getCourses();
+  function onAuthorsChange() {
+    setAuthors(authorStore.getAuthors());
+  }
 
-    const updatedCourses = storeCourses.map((course) => {
-      return {
-        ...course,
-        authorName: authors.find((author) => course.authorId === author.id)
-          .name,
-      };
-    });
-    setCourses(updatedCourses);
+  function onCoursesChange() {
+    setCourses(coursetStore.getCourses());
   }
 
   function deleteCourseHandler(id) {
     deleteCourse(id);
     toast.success("course deleted!");
+  }
+
+  function getAuthorById(id) {
+    return authors.find((auth) => auth.id === id).name;
   }
 
   return (
@@ -47,7 +48,11 @@ function CoursePage() {
         Add Course
       </Link>
 
-      <CourseTable courses={courses} deleteCourse={deleteCourseHandler} />
+      <CourseTable
+        courses={courses}
+        deleteCourse={deleteCourseHandler}
+        getAuthor={getAuthorById}
+      />
     </>
   );
 }

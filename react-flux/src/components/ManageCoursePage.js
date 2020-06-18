@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import CourseForm from "./CourseForm";
 import { toast } from "react-toastify";
 import courseStore from "../stores/CourseStore";
+import authorStore from "../stores/AuthorStore";
 import * as courseActions from "../actions/courseActions";
+import { loadAuthors } from "../actions/authorActions";
 
 const ManageCoursePage = (props) => {
   const [errors, setErrors] = useState({});
   const [courses, setCourses] = useState(courseStore.getCourses());
+  const [authors, setAuthors] = useState(authorStore.getAuthors());
   const [course, setCourse] = useState({
     id: null,
     slug: "",
@@ -17,6 +20,7 @@ const ManageCoursePage = (props) => {
 
   useEffect(() => {
     courseStore.addChangeListener(onCourseChange);
+    authorStore.addChangeListener(onAuthorsChange);
     const slug = props.match.params.slug;
     if (courses.length === 0) {
       courseActions.loadCourses();
@@ -25,11 +29,22 @@ const ManageCoursePage = (props) => {
       if (course) setCourse(course);
       else props.history.push("/notfound");
     }
-    return () => courseStore.removeChangeListener(onCourseChange);
-  }, [props.history, courses.length, props.match.params.slug]);
+    if (authors.length === 0) {
+      loadAuthors();
+    }
+
+    return () => {
+      courseStore.removeChangeListener(onCourseChange);
+      authorStore.removeChangeListener(onAuthorsChange);
+    };
+  }, [props.history, authors.length, courses.length, props.match.params.slug]);
 
   const onCourseChange = () => {
     setCourses(courseStore.getCourses());
+  };
+
+  const onAuthorsChange = () => {
+    setAuthors(authorStore.getAuthors());
   };
 
   const handleChange = (event) => {
@@ -63,6 +78,7 @@ const ManageCoursePage = (props) => {
       <h2>Manage Courses</h2>
       <CourseForm
         errors={errors}
+        authors={authors}
         course={course}
         onChange={handleChange}
         onSubmit={handleSubmit}

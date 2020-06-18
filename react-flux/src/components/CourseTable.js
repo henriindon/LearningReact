@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 function CourseRow(props) {
+  const authorName = props.getAuthor(props.course.authorId);
   return (
     <tr>
       <td>
@@ -16,7 +17,7 @@ function CourseRow(props) {
       <td>
         <Link to={"/course/" + props.course.slug}>{props.course.title}</Link>
       </td>
-      <td>{props.course.authorName}</td>
+      <td>{authorName}</td>
       <td>{props.course.category}</td>
     </tr>
   );
@@ -30,7 +31,7 @@ function CourseTable(props) {
           <tr>
             <th>&nbsp;</th>
             <th>Title</th>
-            <th>Author ID</th>
+            <th>Author</th>
             <th>Category</th>
           </tr>
         </thead>
@@ -41,6 +42,7 @@ function CourseTable(props) {
                 key={course.id}
                 course={course}
                 deleteCourse={props.deleteCourse}
+                getAuthor={props.getAuthor}
               />
             );
           })}
@@ -56,11 +58,11 @@ CourseTable.propTypes = {
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       authorId: PropTypes.number.isRequired,
-      authorName: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
     })
   ).isRequired,
   deleteCourse: PropTypes.func.isRequired,
+  getAuthor: PropTypes.func.isRequired,
 };
 
 export default CourseTable;

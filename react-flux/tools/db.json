@@ -4,7 +4,7 @@
       "id": 2,
       "title": "React: The Big Picture",
       "slug": "react-big-picture",
-      "authorId": 1,
+      "authorId": 3,
       "category": "JavaScript"
     },
     {
@@ -65,11 +65,19 @@
     },
     {
       "id": 11,
-      "slug": "securing-react-apps-with-auth",
-      "title": "Securing React Apps with Auth",
+      "slug": "sa",
+      "title": "sa",
       "authorId": 2,
-      "category": "Test",
-      "createdAt": 1592303110663
+      "category": "dasd",
+      "createdAt": 1592472302673
+    },
+    {
+      "id": 12,
+      "slug": "this-a-test",
+      "title": "this a test",
+      "authorId": 2,
+      "category": "Another",
+      "createdAt": 1592473041003
     }
   ],
   "authors": [
